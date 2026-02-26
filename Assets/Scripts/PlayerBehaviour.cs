@@ -24,16 +24,18 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
 
-        //when spacebar is pressed, reduce enemy hitpoints by dps
+        //when spacebar is pressed, reduce enemy hitpoints by dps (only if game still running)
         Keyboard k = Keyboard.current;
-        if (k.spaceKey.wasPressedThisFrame) {
+        if (k.spaceKey.wasPressedThisFrame && !gameOver.activeSelf && !YouWin.activeSelf) {
             enemyHitPoints -= dps;
             enemyHPText.SetText("HP: " + enemyHitPoints.ToString());
         }
 
         // automatically reduce player hitpoints by dps every second
-        hitPoints -= dps * Time.deltaTime;
-        playerHPText.SetText("HP: " + hitPoints.ToString("F2"));
+        if(gameOver.activeSelf == false && YouWin.activeSelf == false) {
+            hitPoints -= dps * Time.deltaTime;
+            playerHPText.SetText("HP: " + hitPoints.ToString("F2"));
+        }
         
         // check if player hitpoints are less than or equal to 0, if so, show "game over" panel
         if (hitPoints <= 0) {
